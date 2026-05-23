@@ -9,3 +9,6 @@ class EmployeeService:
 
     def create_employee(self, employee_data: EmployeeCreate) -> Employee:
         return self.repository.create(employee_data)
+    
+    def get_employee(self, employee_id: int) -> Employee:
+        return self.repository.get_by_id(employee_id)

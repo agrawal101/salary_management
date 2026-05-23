@@ -20,3 +20,10 @@ def create_employee(
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeeRead:
     return service.create_employee(employee)
+
+@router.get("/{employee_id}", response_model=EmployeeRead)
+def get_employee(
+    employee_id: int,
+    service: EmployeeService = Depends(get_employee_service),
+) -> EmployeeRead:
+    return service.get_employee(employee_id)

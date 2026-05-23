@@ -14,3 +14,10 @@ class EmployeeRepository:
         self.db.commit()
         self.db.refresh(employee)
         return employee
+    
+    def get_by_id(self, employee_id: int) -> Employee:
+        return (
+            self.db.query(Employee)
+            .filter(Employee.id == employee_id)
+            .first()
+        )
