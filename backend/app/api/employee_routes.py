@@ -48,3 +48,12 @@ def update_employee(
         employee_id,
         employee
     )
+
+@router.delete("/{employee_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_employee(
+    employee_id: int,
+    service: EmployeeService = Depends(
+        get_employee_service
+    ),
+):
+    service.delete_employee(employee_id)

@@ -18,3 +18,6 @@ class EmployeeService:
 
     def update_employee(self, employee_id: int, employee_data: EmployeeCreate):
         return self.repository.update(employee_id, employee_data)
+
+    def delete_employee(self, employee_id: int):
+        self.repository.delete(employee_id)

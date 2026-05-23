@@ -15,12 +15,20 @@ class EmployeeRepository:
         self.db.refresh(employee)
         return employee
     
-    def get_by_id(self, employee_id: int) -> Employee:
-        return (
+    def get_by_id(self, employee_id: int):
+        employee = (
             self.db.query(Employee)
             .filter(Employee.id == employee_id)
             .first()
         )
+
+        if not employee:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Employee not found"
+            )
+
+        return employee
     
     def get_all(self, page: int, size: int):
         offset = (page - 1) * size
@@ -48,3 +56,19 @@ class EmployeeRepository:
         self.db.refresh(employee)
 
         return employee
+
+    def delete(self, employee_id: int):
+            employee = (
+                self.db.query(Employee)
+                .filter(Employee.id == employee_id)
+                .first()
+            )
+
+            if not employee:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Employee not found"
+                )
+
+            self.db.delete(employee)
+            self.db.commit()
