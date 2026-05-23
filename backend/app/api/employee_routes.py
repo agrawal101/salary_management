@@ -27,3 +27,11 @@ def get_employee(
     service: EmployeeService = Depends(get_employee_service),
 ) -> EmployeeRead:
     return service.get_employee(employee_id)
+
+@router.get("", response_model=list[EmployeeRead])
+def get_all_employees(
+    page: int = 1,
+    size: int = 10,
+    service: EmployeeService = Depends(get_employee_service),
+):
+    return service.get_all_employees(page, size)

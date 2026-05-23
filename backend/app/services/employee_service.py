@@ -12,3 +12,10 @@ class EmployeeService:
     
     def get_employee(self, employee_id: int) -> Employee:
         return self.repository.get_by_id(employee_id)
+    
+    def get_all_employees(
+    self,
+    page: int,
+    size: int
+    ):
+        return self.repository.get_all(page, size)

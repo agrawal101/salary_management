@@ -21,3 +21,16 @@ class EmployeeRepository:
             .filter(Employee.id == employee_id)
             .first()
         )
+    def get_all(
+    self,
+    page: int,
+    size: int
+    ):
+        offset = (page - 1) * size
+
+        return (
+            self.db.query(Employee)
+            .offset(offset)
+            .limit(size)
+            .all()
+        )
