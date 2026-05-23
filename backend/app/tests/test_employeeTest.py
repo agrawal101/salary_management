@@ -35,3 +35,35 @@ def test_get_employee_by_id():
     data = response.json()
     assert data["id"] == employee_id
     assert data["full_name"] == "John Doe"
+
+# def test_get_employee_by_invalid_id():
+#     response = client.get("/employees/999999")
+
+#     assert response.status_code == 404
+
+def test_get_all_employees():
+    employees = [
+        {
+            "full_name": "John Doe",
+            "job_title": "Software Engineer",
+            "country": "India",
+            "salary": 100000
+        },
+        {
+            "full_name": "Jane Smith",
+            "job_title": "QA Engineer",
+            "country": "India",
+            "salary": 80000
+        }
+    ]
+
+    for employee in employees:
+        client.post("/employees", json=employee)
+
+    response = client.get("/employees")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert len(data) >= 2
