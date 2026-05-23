@@ -1,0 +1,22 @@
+import sys; print(sys.path)
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
+
+from backend.app.database.session import get_db
+from backend.app.repositories.employee_repository import EmployeeRepository
+from backend.app.schemas.employee import EmployeeCreate, EmployeeRead
+from backend.app.services.employee_service import EmployeeService
+
+router = APIRouter(prefix="/employees", tags=["employees"])
+
+
+def get_employee_service(db: Session = Depends(get_db)) -> EmployeeService:
+    return EmployeeService(EmployeeRepository(db))
+
+
+@router.post("", response_model=EmployeeRead, status_code=status.HTTP_201_CREATED)
+def create_employee(
+    employee: EmployeeCreate,
+    service: EmployeeService = Depends(get_employee_service),
+) -> EmployeeRead:
+    return service.create_employee(employee)
