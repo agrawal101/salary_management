@@ -158,7 +158,7 @@ def test_update_employee_not_found():
 
 def test_delete_employee():
     payload = {
-        "full_name": "John Doe",
+        "full_name": "Gaurav Agrawal",
         "job_title": "Software Engineer",
         "country": "India",
         "salary": 100000
@@ -182,3 +182,41 @@ def test_delete_employee():
     )
 
     assert get_response.status_code == 404
+
+def test_get_salary_insights_by_country():
+    employees = [
+        {
+            "full_name": "Gaurav Agrawal",
+            "job_title": "Software Engineer",
+            "country": "India",
+            "salary": 100000
+        },
+        {
+            "full_name": "Rock Smith",
+            "job_title": "QA Engineer",
+            "country": "India",
+            "salary": 200000
+        },
+        {
+            "full_name": "Mike Tyson",
+            "job_title": "Manager",
+            "country": "India",
+            "salary": 50000
+        }
+    ]
+
+    for employee in employees:
+        client.post("/employees", json=employee)
+
+    response = client.get(
+        "/salary-insights/country/India"
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["country"] == "India"
+    assert data["minimum_salary"] == 50000
+    assert data["maximum_salary"] == 200000
+    assert data["average_salary"] == 116666.67
