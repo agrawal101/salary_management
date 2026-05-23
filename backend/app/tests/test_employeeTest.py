@@ -96,3 +96,13 @@ def test_get_all_employees_with_pagination():
     data = response.json()
 
     assert len(data) >= 2
+
+def test_get_employees_invalid_page():
+    response = client.get("/employees?page=0&size=10")
+
+    assert response.status_code == 422
+
+def test_get_employees_invalid_size():
+    response = client.get("/employees?page=1&size=0")
+
+    assert response.status_code == 422

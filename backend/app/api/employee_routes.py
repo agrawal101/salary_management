@@ -1,5 +1,5 @@
 import sys; print(sys.path)
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status,Query
 from sqlalchemy.orm import Session
 
 from backend.app.database.session import get_db
@@ -30,8 +30,8 @@ def get_employee(
 
 @router.get("", response_model=list[EmployeeRead])
 def get_all_employees(
-    page: int = 1,
-    size: int = 10,
+    page: int = Query(1, ge=1),
+    size: int = Query(10, ge=1, le=100),
     service: EmployeeService = Depends(get_employee_service),
 ):
     return service.get_all_employees(page, size)
