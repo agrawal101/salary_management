@@ -154,5 +154,31 @@ def test_update_employee_not_found():
         "/employees/99999",
         json=payload
     )
-
     assert response.status_code == 404
+
+def test_delete_employee():
+    payload = {
+        "full_name": "John Doe",
+        "job_title": "Software Engineer",
+        "country": "India",
+        "salary": 100000
+    }
+
+    create_response = client.post(
+        "/employees",
+        json=payload
+    )
+
+    employee_id = create_response.json()["id"]
+
+    response = client.delete(
+        f"/employees/{employee_id}"
+    )
+
+    assert response.status_code == 204
+
+    get_response = client.get(
+        f"/employees/{employee_id}"
+    )
+
+    assert get_response.status_code == 404
