@@ -141,3 +141,18 @@ def test_update_employee():
     assert data["full_name"] == "Gaurav Updated"
     assert data["job_title"] == "Senior Engineer"
     assert data["salary"] == 150000
+
+def test_update_employee_not_found():
+    payload = {
+        "full_name": "Gaurav",
+        "job_title": "Engineer",
+        "country": "India",
+        "salary": 100000
+    }
+
+    response = client.put(
+        "/employees/99999",
+        json=payload
+    )
+
+    assert response.status_code == 404

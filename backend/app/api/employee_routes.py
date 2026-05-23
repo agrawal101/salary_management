@@ -35,3 +35,16 @@ def get_all_employees(
     service: EmployeeService = Depends(get_employee_service),
 ):
     return service.get_all_employees(page, size)
+
+@router.put("/{employee_id}", response_model=EmployeeRead)
+def update_employee(
+    employee_id: int,
+    employee: EmployeeCreate,
+    service: EmployeeService = Depends(
+        get_employee_service
+    ),
+):
+    return service.update_employee(
+        employee_id,
+        employee
+    )

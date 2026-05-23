@@ -12,10 +12,9 @@ class EmployeeService:
     
     def get_employee(self, employee_id: int) -> Employee:
         return self.repository.get_by_id(employee_id)
-    
-    def get_all_employees(
-    self,
-    page: int,
-    size: int
-    ):
+
+    def get_all_employees(self, page: int, size: int):
         return self.repository.get_all(page, size)
+
+    def update_employee(self, employee_id: int, employee_data: EmployeeCreate):
+        return self.repository.update(employee_id, employee_data)
