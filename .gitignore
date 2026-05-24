@@ -1,21 +1,36 @@
-# Virtual environments
-venv/
+# Python
 .venv/
-env/
-
-# Python cache
 __pycache__/
 *.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# SQLite DB
+*.db
+*.sqlite3
 
 # Environment variables
 .env
 
-# IDE
-.idea/
-.vscode/
-
-# OS files
+# MacOS
 .DS_Store
+
+# IDE
+.vscode/
+.idea/
 
 # Logs
 *.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Build artifacts
+build/
+dist/
