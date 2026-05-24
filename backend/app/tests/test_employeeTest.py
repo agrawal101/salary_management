@@ -2,9 +2,9 @@ import pytest
 from fastapi.testclient import TestClient
 from backend.app.main import app
 
-client = TestClient(app)
+# client = TestClient(app)
 
-def test_create_employee():
+def test_create_employee(client):
     payload = {
         "full_name": "Gaurav Agrawal",
         "job_title": "Software Engineer",
@@ -20,7 +20,7 @@ def test_create_employee():
     assert data["salary"] == payload["salary"]
     assert "id" in data
 
-def test_get_employee_by_id():
+def test_get_employee_by_id(client):
     payload = {
         "full_name": "Gaurav Agrawal",
         "job_title": "Software Engineer",
@@ -41,7 +41,7 @@ def test_get_employee_by_id():
 
 #     assert response.status_code == 404
 
-def test_get_all_employees():
+def test_get_all_employees(client):
     employees = [
         {
             "full_name": "Gaurav Agrawal",
@@ -70,7 +70,7 @@ def test_get_all_employees():
 
     
 
-def test_get_all_employees_with_pagination():
+def test_get_all_employees_with_pagination(client):
     employees = [
         {
             "full_name": "Gaurav Agrawal",
@@ -97,17 +97,17 @@ def test_get_all_employees_with_pagination():
 
     assert len(data) >= 2
 
-def test_get_employees_invalid_page():
+def test_get_employees_invalid_page(client):
     response = client.get("/employees?page=0&size=10")
 
     assert response.status_code == 422
 
-def test_get_employees_invalid_size():
+def test_get_employees_invalid_size(client):
     response = client.get("/employees?page=1&size=0")
 
     assert response.status_code == 422
 
-def test_update_employee():
+def test_update_employee(client):
     payload = {
         "full_name": "Gaurav Agrawal",
         "job_title": "Software Engineer",
@@ -142,7 +142,7 @@ def test_update_employee():
     assert data["job_title"] == "Senior Engineer"
     assert data["salary"] == 150000
 
-def test_update_employee_not_found():
+def test_update_employee_not_found(client):
     payload = {
         "full_name": "Gaurav",
         "job_title": "Engineer",
@@ -156,7 +156,7 @@ def test_update_employee_not_found():
     )
     assert response.status_code == 404
 
-def test_delete_employee():
+def test_delete_employee(client):
     payload = {
         "full_name": "Gaurav Agrawal",
         "job_title": "Software Engineer",
@@ -183,7 +183,7 @@ def test_delete_employee():
 
     assert get_response.status_code == 404
 
-def test_get_salary_insights_by_country():
+def test_get_salary_insights_by_country(client):
     employees = [
         {
             "full_name": "Gaurav Agrawal",
@@ -221,7 +221,7 @@ def test_get_salary_insights_by_country():
     assert data["maximum_salary"] == 200000
     assert data["average_salary"] == 116666.67
 
-def test_get_average_salary_by_job_title_in_country():
+def test_get_average_salary_by_job_title_in_country(client):
     employees = [
         {
             "full_name": "Gaurav Agrawal",
@@ -260,14 +260,14 @@ def test_get_average_salary_by_job_title_in_country():
     assert data["job_title"] == "Software Engineer"
     assert data["average_salary"] == 150000
 
-def test_salary_insights_country_not_found():
+def test_salary_insights_country_not_found(client):
     response = client.get(
         "/salary-insights/country/Japan"
     )
 
     assert response.status_code == 404
 
-def test_job_title_salary_not_found():
+def test_job_title_salary_not_found(client):
     employee = {
         "full_name": "Gaurav Agrawal",
         "job_title": "Software Engineer",
