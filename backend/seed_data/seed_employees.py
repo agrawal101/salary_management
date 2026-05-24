@@ -2,11 +2,8 @@ import random
 from pathlib import Path
 
 from sqlalchemy.orm import Session
-
-from backend.app.database.session import SessionLocal
+from backend.app.database.session import Base, SessionLocal, engine
 from backend.app.models.employee import Employee
-
-from backend.app.database.session import Base, engine
 Base.metadata.create_all(bind=engine)
 
 TOTAL_EMPLOYEES = 10000

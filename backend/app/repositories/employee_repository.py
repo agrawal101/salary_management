@@ -33,8 +33,12 @@ class EmployeeRepository:
     
     def get_all(self, page: int, size: int):
         offset = (page - 1) * size
+
         return (
             self.db.query(Employee)
+            .order_by(
+                Employee.id.desc()
+            )
             .offset(offset)
             .limit(size)
             .all()

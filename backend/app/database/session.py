@@ -1,11 +1,23 @@
 from collections.abc import Generator
+from pathlib import Path
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
-from sqlalchemy.pool import StaticPool
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    Session,
+    sessionmaker,
+)
 
 
-DATABASE_URL = "sqlite://"
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+DATABASE_PATH = (
+    BASE_DIR / "salary_management.db"
+)
+
+DATABASE_URL = (
+    f"sqlite:///{DATABASE_PATH}"
+)
 
 
 class Base(DeclarativeBase):
@@ -14,15 +26,27 @@ class Base(DeclarativeBase):
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
+    connect_args={
+        "check_same_thread": False
+    },
 )
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+SessionLocal = sessionmaker(
+    bind=engine,
+    autoflush=False,
+    autocommit=False,
+)
 
 
-def get_db() -> Generator[Session, None, None]:
+def get_db() -> Generator[
+    Session,
+    None,
+    None,
+]:
     db = SessionLocal()
+
     try:
         yield db
+
     finally:
         db.close()
