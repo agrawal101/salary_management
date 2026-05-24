@@ -4,8 +4,7 @@ AI tools were used as an engineering assistant during development to improve pro
 
 ## Tools Used
 - ChatGPT
-- GitHub Copilot (if used)
-- Codex (if used)
+- OpenAI Codex
 
 ## Areas Where AI Was Used
 - Frontend guidance (React + Material UI)
@@ -34,4 +33,6 @@ AI tools were used as an engineering assistant during development to improve pro
 
 ## Validation
 
-All AI-generated suggestions were manually reviewed, modified where required, tested locally, and validated through automated tests and API verification.
+AI tools were used as an engineering assistant for guidance, debugging, UI implementation support, and code suggestions.
+
+All AI-assisted outputs were manually reviewed, modified where required, tested locally, and validated through automated tests, API verification, and frontend testing.
