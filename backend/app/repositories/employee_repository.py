@@ -2,7 +2,8 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from backend.app.models.employee import Employee
 from backend.app.schemas.employee import EmployeeCreate
-
+from sqlalchemy import func
+from fastapi import HTTPException, status
 
 class EmployeeRepository:
     def __init__(self, db: Session) -> None:
@@ -72,3 +73,59 @@ class EmployeeRepository:
 
             self.db.delete(employee)
             self.db.commit()
+
+
+    def get_salary_insights_by_country(self,country: str):
+        result = (
+            self.db.query(
+                func.min(Employee.salary),
+                func.max(Employee.salary),
+                func.avg(Employee.salary)
+            )
+            .filter(Employee.country == country)
+            .first()
+        )
+
+        min_salary, max_salary, avg_salary = result
+
+        if min_salary is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Country not found"
+            )
+
+        return {
+            "country": country,
+            "minimum_salary": min_salary,
+            "maximum_salary": max_salary,
+            "average_salary": round(
+                avg_salary,
+                2
+            ),
+        }
+    def get_average_salary_by_job_title(self,country: str,job_title: str):
+        avg_salary = (
+            self.db.query(
+                func.avg(Employee.salary)
+            )
+            .filter(
+                Employee.country == country,
+                Employee.job_title == job_title
+            )
+            .scalar()
+        )
+
+        if avg_salary is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No employees found"
+            )
+
+        return {
+            "country": country,
+            "job_title": job_title,
+            "average_salary": round(
+                avg_salary,
+                2
+            ),
+        }
