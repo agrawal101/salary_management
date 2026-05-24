@@ -108,3 +108,6 @@ python -m backend.seed_data.seed_employees
 AI-assisted development details and prompts used are documented in:
 
 `docs/ai-usage.md`
+
+
+![alt text](<CRUD_UI.png>) ![alt text](<Salary_insights.png>)
